@@ -1,0 +1,32 @@
+/* the template's bootstrap.min.css has a broken default divider; use the mdi chevron-right icon */
+.breadcrumb {
+    --bs-breadcrumb-divider: "\F0142";
+}
+
+.profile-avatar {
+    margin-top: -48px;
+}
+
+.profile-avatar img {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    padding: 3px;
+}
+
+.photo-thumb {
+    object-fit: cover;
+}
+
+.profile-details li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid #eff2f7;
+}
+
+.profile-details li i {
+    font-size: 20px;
+    flex-shrink: 0;
+}

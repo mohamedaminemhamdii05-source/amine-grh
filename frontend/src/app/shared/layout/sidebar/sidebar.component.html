@@ -1,0 +1,66 @@
+<div class="vertical-menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Admin Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title" key="t-menu">Menu</li>
+
+                @if(user.role == 'admin'){
+                    <li routerLinkActive="mm-active">
+                        <a routerLink="/dashboard/statistics" routerLinkActive="active" (click)="closeOnMobile()" class="waves-effect">
+                            <i class="bx bx-home-circle"></i>
+                            <span key="t-dashboards">Dashboards</span>
+                        </a>
+                    </li>
+                }
+
+                @if(user.role == 'admin'){
+                    <li [class.mm-active]="isOpen('clients')">
+                        <a href="javascript: void(0);" (click)="toggle('clients')" class="has-arrow waves-effect"
+                            [attr.aria-expanded]="isOpen('clients')">
+                            <i class="bx bx-layout"></i>
+                            <span key="t-layouts">Clients management</span>
+                        </a>
+                        <ul class="sub-menu mm-collapse" [class.mm-show]="isOpen('clients')">
+                            <li><a routerLink="/dashboard/clients/list" routerLinkActive="active" (click)="closeOnMobile()">Clients list</a></li>
+                            <li><a routerLink="/dashboard/clients/ajout" routerLinkActive="active" (click)="closeOnMobile()">Add client</a></li>
+                        </ul>
+                    </li>
+                }
+
+                <li [class.mm-active]="isOpen('projects')">
+                    <a href="javascript: void(0);" (click)="toggle('projects')" class="has-arrow waves-effect"
+                        [attr.aria-expanded]="isOpen('projects')">
+                        <i class="bx bx-briefcase-alt-2"></i>
+                        <span key="t-projects">Projects</span>
+                    </a>
+                    <ul class="sub-menu mm-collapse" [class.mm-show]="isOpen('projects')">
+                        <li><a routerLink="/dashboard/projects/list" routerLinkActive="active" (click)="closeOnMobile()">Projects list</a></li>
+                        @if(user.role == 'admin'){
+                            <li><a routerLink="/dashboard/projects/ajout" routerLinkActive="active" (click)="closeOnMobile()">Add project</a></li>
+                        }
+                    </ul>
+                </li>
+
+               @if(user.role == 'admin'){
+                <li [class.mm-active]="isOpen('employers')">
+                    <a href="javascript: void(0);" (click)="toggle('employers')" class="has-arrow waves-effect"
+                        [attr.aria-expanded]="isOpen('employers')">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Employers</span>
+                    </a>
+                    <ul class="sub-menu mm-collapse" [class.mm-show]="isOpen('employers')">
+                        <li><a routerLink="/dashboard/employers/list" routerLinkActive="active" (click)="closeOnMobile()">Employees list</a></li>
+                        <li><a routerLink="/dashboard/employers/ajout" routerLinkActive="active" (click)="closeOnMobile()">Add employee</a></li>
+                    </ul>
+                </li>
+               }
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>

@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment / secrets (keep backend/.env.example)
+.env
+.env.*
+!.env.example
+
+# Build output and caches
+dist/
+frontend/.angular/
+
+# Uploaded files (user content). Keep the default admin avatar,
+# which the default admin account uses and which keeps the folder in git.
+backend/uploads/*
+!backend/uploads/admin.png
+
+# Logs and OS / editor files
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db

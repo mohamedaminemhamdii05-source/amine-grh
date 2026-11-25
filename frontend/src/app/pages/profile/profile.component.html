@@ -1,0 +1,228 @@
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Profile</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Profile</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+@if(loading){
+<div class="card">
+    <div class="card-body text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="text-muted mt-3 mb-0">Loading your profile...</p>
+    </div>
+</div>
+} @else if(loadError){
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="bx bx-error-circle display-4 text-danger"></i>
+        <p class="text-muted mt-3">Your profile could not be loaded.</p>
+        <button type="button" (click)="loadUser()" class="btn btn-primary">Try again</button>
+    </div>
+</div>
+} @else {
+<div class="row">
+
+    <!-- profile card -->
+    <div class="col-xl-4">
+        <div class="card overflow-hidden">
+            <div class="bg-primary bg-soft">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="text-primary p-3">
+                            <h5 class="text-primary">My Profile</h5>
+                            <p>Manage your account</p>
+                        </div>
+                    </div>
+                    <div class="col-5 align-self-end">
+                        <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="text-center">
+                    <div class="profile-avatar">
+                        <img [src]="preview || (user.image | fileUrl)" alt="Profile photo"
+                            class="img-thumbnail rounded-circle">
+                    </div>
+                    <h5 class="font-size-16 mt-3 mb-1 text-truncate">{{ user.fullname }}</h5>
+                    @if(user.role == 'admin'){
+                        <span class="badge bg-success bg-soft text-success font-size-12">Admin</span>
+                    } @else {
+                        <span class="badge bg-primary bg-soft text-primary font-size-12">User</span>
+                    }
+                </div>
+
+                <ul class="list-unstyled profile-details mt-4 mb-0">
+                    <li>
+                        <i class="bx bx-envelope text-primary"></i>
+                        <div class="overflow-hidden">
+                            <p class="text-muted mb-0 font-size-12">Email</p>
+                            <h6 class="font-size-14 mb-0 text-truncate">{{ user.email }}</h6>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bx bx-phone text-primary"></i>
+                        <div class="overflow-hidden">
+                            <p class="text-muted mb-0 font-size-12">Phone</p>
+                            <h6 class="font-size-14 mb-0">{{ user.tel || '-' }}</h6>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bx bx-calendar text-primary"></i>
+                        <div class="overflow-hidden">
+                            <p class="text-muted mb-0 font-size-12">Member since</p>
+                            <h6 class="font-size-14 mb-0">{{ user.date ? (user.date | date: 'mediumDate') : '-' }}</h6>
+                        </div>
+                    </li>
+                </ul>
+
+                @if(user.tags && user.tags.length > 0){
+                <div class="mt-4">
+                    <h5 class="font-size-14 mb-2">Skills</h5>
+                    @for(tag of user.tags; track $index){
+                        <span class="badge bg-primary bg-soft text-primary font-size-11 me-1 mb-1">{{ tag }}</span>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+
+    <div class="col-xl-8">
+
+        <!-- personal information -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4"><i class="bx bx-user-circle text-primary me-1"></i> Personal information</h4>
+
+                <form [formGroup]="infoForm" (ngSubmit)="saveInfo()">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fullname" class="form-label">Full name</label>
+                            <input formControlName="fullname" id="fullname" type="text" class="form-control"
+                                placeholder="Enter your full name...">
+                            @if(infoForm.controls['fullname'].touched && infoForm.controls['fullname'].invalid){
+                                <p class="text-danger mb-0">invalid name</p>
+                            }
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input formControlName="email" id="email" type="email" class="form-control"
+                                placeholder="Enter your email...">
+                            @if(infoForm.controls['email'].touched && infoForm.controls['email'].invalid){
+                                <p class="text-danger mb-0">invalid email</p>
+                            }
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tel" class="form-label">Phone</label>
+                            <input formControlName="tel" id="tel" type="text" class="form-control"
+                                placeholder="Enter your phone...">
+                            @if(infoForm.controls['tel'].touched && infoForm.controls['tel'].invalid){
+                                <p class="text-danger mb-0">invalid tel</p>
+                            }
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Profile photo</label>
+                            <div class="d-flex align-items-center">
+                                <img [src]="preview || (user.image | fileUrl)" alt=""
+                                    class="avatar-sm rounded-circle me-3 photo-thumb">
+                                <input #photoInput (change)="selectImage($event)" id="photo" type="file"
+                                    accept="image/*" class="d-none">
+                                <label for="photo" class="btn btn-outline-primary btn-sm mb-0">
+                                    <i class="bx bx-upload me-1"></i> Choose photo
+                                </label>
+                                @if(image){
+                                    <button type="button" (click)="cancelImage(photoInput)"
+                                        class="btn btn-link btn-sm text-danger">Cancel</button>
+                                } @else if(user.image){
+                                    <button type="button" (click)="removePhoto()" [disabled]="removingPhoto"
+                                        class="btn btn-outline-danger btn-sm ms-2">
+                                        @if(removingPhoto){
+                                            <span class="spinner-border spinner-border-sm me-1" role="status"></span> Removing...
+                                        } @else {
+                                            <i class="bx bx-trash me-1"></i> Remove photo
+                                        }
+                                    </button>
+                                }
+                            </div>
+                            @if(image){
+                                <p class="text-muted font-size-12 mt-1 mb-0 text-truncate">{{ image.name }}</p>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" [disabled]="infoForm.invalid || savingInfo" class="btn btn-primary">
+                            @if(savingInfo){
+                                <span class="spinner-border spinner-border-sm me-1" role="status"></span> Saving...
+                            } @else {
+                                <i class="bx bx-save me-1"></i> Save changes
+                            }
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- change password -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4"><i class="bx bx-lock-alt text-primary me-1"></i> Change password</h4>
+
+                <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="form-label">New password</label>
+                            <div class="input-group">
+                                <input formControlName="password" id="password" [type]="showPassword ? 'text' : 'password'"
+                                    class="form-control" placeholder="Enter new password..." autocomplete="new-password">
+                                <button type="button" (click)="showPassword = !showPassword" class="btn btn-light"
+                                    [title]="showPassword ? 'Hide password' : 'Show password'">
+                                    <i class="mdi" [class.mdi-eye-off-outline]="showPassword" [class.mdi-eye-outline]="!showPassword"></i>
+                                </button>
+                            </div>
+                            @if(passwordForm.controls['password'].touched && passwordForm.controls['password'].invalid){
+                                <p class="text-danger mb-0">password must be at least 6 characters</p>
+                            }
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="confirm" class="form-label">Confirm password</label>
+                            <input formControlName="confirm" id="confirm" [type]="showPassword ? 'text' : 'password'"
+                                class="form-control" placeholder="Confirm new password..." autocomplete="new-password">
+                            @if(passwordForm.controls['confirm'].touched && passwordForm.controls['confirm'].invalid){
+                                <p class="text-danger mb-0">please confirm your password</p>
+                            } @else if(passwordForm.controls['confirm'].touched && passwordForm.hasError('mismatch')){
+                                <p class="text-danger mb-0">passwords do not match</p>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" [disabled]="passwordForm.invalid || savingPassword" class="btn btn-primary">
+                            @if(savingPassword){
+                                <span class="spinner-border spinner-border-sm me-1" role="status"></span> Saving...
+                            } @else {
+                                <i class="bx bx-key me-1"></i> Change password
+                            }
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- end col -->
+
+</div>
+}

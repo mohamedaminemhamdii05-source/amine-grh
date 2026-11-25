@@ -1,0 +1,24 @@
+# Render Blueprint - deploys Amine GRH as ONE free web service (API + website).
+# On render.com: New > Blueprint > choose this GitHub repository.
+# You will be asked for MONGO_URI (your MongoDB Atlas connection string).
+services:
+  - type: web
+    name: amine-grh
+    runtime: node
+    plan: free
+    buildCommand: cd frontend && npm install && npx ng build && cd ../backend && npm install
+    startCommand: cd backend && npm start
+    healthCheckPath: /login
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: MONGO_URI
+        sync: false            # asked during setup: your MongoDB Atlas connection string
+      - key: SECRET_KEY
+        generateValue: true    # Render creates a long random secret automatically
+      - key: DEMO_MODE
+        value: "true"          # public portfolio demo: loads fictional data on every start
+      - key: TRUST_PROXY
+        value: "1"
+      - key: JWT_EXPIRES_IN
+        value: "1d"

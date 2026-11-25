@@ -1,0 +1,5 @@
+/* charts fill their card and follow its width */
+.chart-box {
+    height: 320px;
+    width: 100%;
+}
