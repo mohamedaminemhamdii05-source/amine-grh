@@ -20,3 +20,6 @@ npm-debug.log*
 *.log
 .DS_Store
 Thumbs.db
+
+# Personal deployment notes (kept on this PC only)
+DEPLOYMENT-GUIDE.md

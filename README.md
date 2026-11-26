@@ -19,8 +19,6 @@ The demo uses fictional data that resets regularly. Use the one-click buttons on
 | Admin | `admin@aminegrh.demo` | `Demo@2026` |
 | Employee | `employee@aminegrh.demo` | `Demo@2026` |
 
-How to publish and host it yourself: see [DEPLOYMENT-GUIDE.md](DEPLOYMENT-GUIDE.md).
-
 ## Features
 
 - Secure login with JSON Web Tokens (JWT) and hashed passwords (bcrypt)
@@ -65,7 +63,6 @@ project-3/
 │       ├── assets/          CSS, JS libraries, images, logo
 │       └── index.html
 ├── render.yaml            Render deployment settings (free demo)
-├── DEPLOYMENT-GUIDE.md    Step-by-step: GitHub + free hosting
 ├── .gitignore
 └── README.md
 ```
