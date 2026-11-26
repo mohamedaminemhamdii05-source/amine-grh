@@ -20,7 +20,7 @@ const isProtectedDemoAccount = (user) =>
     isDemoMode() && !!user && DEMO_ACCOUNTS.some((a) => a.email === String(user.email).toLowerCase());
 
 const EMPLOYEES = [
-    { key: 'yasmine', fullname: 'Yasmine Ben Ali', email: 'employee@aminegrh.demo', tel: '+216 20 111 222', tags: ['Angular', 'UI/UX'] },
+    { key: 'yasmine', fullname: 'Medamine', email: 'employee@aminegrh.demo', tel: '+216 20 111 222', tags: ['Angular', 'UI/UX'] },
     { key: 'karim', fullname: 'Karim Haddad', email: 'karim.haddad@aminegrh.demo', tel: '+216 22 333 444', tags: ['Node.js', 'MongoDB'] },
     { key: 'ines', fullname: 'Ines Trabelsi', email: 'ines.trabelsi@aminegrh.demo', tel: '+216 24 555 666', tags: ['Project Manager', 'Scrum'] },
     { key: 'omar', fullname: 'Omar Jlassi', email: 'omar.jlassi@aminegrh.demo', tel: '+216 25 777 888', tags: ['DevOps', 'Docker'] },
